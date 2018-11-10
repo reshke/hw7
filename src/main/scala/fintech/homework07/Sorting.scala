@@ -1,5 +1,6 @@
 package fintech.homework07
 
+import scala.collection.mutable.Buffer
 import scala.collection.mutable.ListBuffer
 
 /**
@@ -9,8 +10,8 @@ import scala.collection.mutable.ListBuffer
 
 object Sorting {
 
-  private def quickSort_times[T](list: ListBuffer[T])(implicit ord: Ordering[T]): ListBuffer[T] = {
-    def partition(list: ListBuffer[T], pivot: T): (ListBuffer[T], ListBuffer[T]) = {
+  private def quickSort_times[T](list: Buffer[T])(implicit ord: Ordering[T]): Buffer[T] = {
+    def partition(list: Buffer[T], pivot: T): (Buffer[T], Buffer[T]) = {
       val left = list.filter(item => ord.compare(item, pivot) < 0)
       val right = list.filter(item => ord.compare(item, pivot) >= 0)
       (left, right)
@@ -24,8 +25,8 @@ object Sorting {
     }
   }
 
-  private def mergeSort_times[T](list : ListBuffer[T])(implicit ord : Ordering[T]) : ListBuffer[T] = {
-    def merge(left: ListBuffer[T], right: ListBuffer[T]): ListBuffer[T] = {
+  private def mergeSort_times[T](list : Buffer[T])(implicit ord : Ordering[T]) : Buffer[T] = {
+    def merge(left: Buffer[T], right: Buffer[T]): Buffer[T] = {
       (left.isEmpty, right.isEmpty) match {
         case (true, true) | (false, true) => left
         case (true, false) => right
