@@ -9,7 +9,7 @@ import scala.collection.mutable.ListBuffer
 
 object Sorting {
 
-  private def quickSort[T](list: ListBuffer[T])(implicit ord: Ordering[T]): ListBuffer[T] = {
+  private def quickSort_times[T](list: ListBuffer[T])(implicit ord: Ordering[T]): ListBuffer[T] = {
     def partition(list: ListBuffer[T], pivot: T): (ListBuffer[T], ListBuffer[T]) = {
       val left = list.filter(item => ord.compare(item, pivot) < 0)
       val right = list.filter(item => ord.compare(item, pivot) >= 0)
@@ -20,11 +20,11 @@ object Sorting {
       list
     else {
       val (left, right) = partition(list.tail, list.head)
-      (quickSort(left) :+ list.head) ++ quickSort(right)
+      (quickSort_times(left) :+ list.head) ++ quickSort_times(right)
     }
   }
 
-  private def mergeSort[T](list : ListBuffer[T])(implicit ord : Ordering[T]) : ListBuffer[T] = {
+  private def mergeSort_times[T](list : ListBuffer[T])(implicit ord : Ordering[T]) : ListBuffer[T] = {
     def merge(left: ListBuffer[T], right: ListBuffer[T]): ListBuffer[T] = {
       (left.isEmpty, right.isEmpty) match {
         case (true, true) | (false, true) => left
@@ -46,43 +46,31 @@ object Sorting {
     else {
       val (left, right) = list.splitAt(list.length / 2)
 
-      merge(mergeSort(left), mergeSort(right))
+      merge(mergeSort_times(left), mergeSort_times(right))
     }
   }
 
-  def mergeSort[T](iterable : Seq[T])(implicit ord : Ordering[T]): Seq[T] = {
-    var list = new ListBuffer[T]()
-    var result: Seq[T] = iterable
+  def mergeSort[T](data : ListBuffer[T])(implicit ord : Ordering[T]): Unit= {
+    val result : ListBuffer[T] = ListBuffer.empty[T]
 
-    for (item <- iterable) {
-      list += item
-      result = result.tail
-    }
+    for (item <-  mergeSort_times(data))
+      result.+=:(item)
 
-    list = mergeSort(list)
+    data.clear()
 
-    for (item <- list) {
-      result = result :+ item
-    }
-
-    result
+    for (item <- result)
+      data.+=:(item)
   }
 
-  def quickSort[T](iterable : Seq[T])(implicit ord : Ordering[T]): Seq[T] = {
-    var list = new ListBuffer[T]()
-    var result: Seq[T] = iterable
+  def quickSort[T](data : ListBuffer[T])(implicit ord : Ordering[T]): Unit= {
+    val result : ListBuffer[T] = ListBuffer.empty[T]
 
-    for (item <- iterable) {
-      list += item
-      result = result.tail
-    }
+    for (item <- quickSort_times(data))
+      result.+=:(item)
 
-    list = quickSort(list)
+    data.clear()
 
-    for (item <- list) {
-      result = result :+ item
-    }
-
-    result
+    for (item <- result)
+      data.+=:(item)
   }
 }
