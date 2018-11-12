@@ -2,9 +2,15 @@ package fintech.homework07
 import org.scalatest.{FlatSpec, Matchers}
 import fintech.homework07.Sorting._
 import scala.collection.mutable.ListBuffer
-import scala.collection.immutable.LinearSeq
+
 
 class SortingSpec extends FlatSpec with Matchers {
+  it should "merge sort correctly2" in {
+    val lb = ListBuffer(2,1,6,4,5,3)
+    Sorting.mergeSort(lb)
+    lb shouldEqual ListBuffer(1,2,3,4,5,6)
+  }
+
   "mergeSort" should "do smth" in {
     val data = ListBuffer(1, 2, 3)
     mergeSort(data)
@@ -104,15 +110,15 @@ class SortingSpec extends FlatSpec with Matchers {
 
     data should be(ListBuffer(5, 1, 6, 2, 7, 3, 8, 4, 9)) // сохраняет порядок
   }
-
-  "quickSort" should "sort with implicit ordering well, some another case" in {
-    implicit val intOrdering = new Ordering[Int] {
-      override def compare(x: Int, y: Int): Int = if (x % 5 > y % 5) 1 else if (x % 5 == y % 5) 0 else -1
-    }
-
-    val data = ListBuffer(2, 3, 1, 4, 5, 6, 7, 9, 8, 3, 3, 3)
-    quickSort(data)
-
-    data should be(ListBuffer(5, 1, 6, 2, 7, 3, 8, 3, 3, 3, 4, 9)) // тоже сохраняет порядок
-  }
+//
+//  "quickSort" should "sort with implicit ordering well, some another case" in {
+//    implicit val intOrdering = new Ordering[Int] {
+//      override def compare(x: Int, y: Int): Int = if (x % 5 > y % 5) 1 else if (x % 5 == y % 5) 0 else -1
+//    }
+//
+//    val data = ListBuffer(2, 3, 1, 4, 5, 6, 7, 9, 8, 3, 3, 3)
+//    quickSort(data)
+//
+//    data should be(ListBuffer(5, 1, 6, 2, 7, 3, 8, 3, 3, 3, 4, 9)) // тоже сохраняет порядок
+//  }
 }
